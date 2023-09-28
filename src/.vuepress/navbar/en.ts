@@ -25,15 +25,11 @@ export const enNavbar = navbar([
   
   },
   {
-    text:"demo",
+    text:"课程学习",
     icon: "pen-to-square",
-    prefix:"/demo/",
+    prefix:"/课程学习/",
     children: [
-        "disable",
-        "encrypt",
-        "markdown",
-        "page",
-        "README",
+
     ],
   },
 
