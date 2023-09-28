@@ -10,7 +10,6 @@ tag:
   - pca
 ---
 
-![](202309152127019395246046019.webp)
 # SVD分解和PCA主成分析
 奇异值分解（Singular Value Decomposition，简称SVD）是一种常用的矩阵分解方法，用于将一个矩阵分解为三个矩阵的乘积。SVD在许多领域中都有广泛的应用，如数据降维、图像压缩、推荐系统等。
 
@@ -114,8 +113,8 @@ plt.xlabel('奇异值数',fontproperties='SimHei')
 plt.ylabel('均方误差',fontproperties='SimHei')
 plt.show()
 ```
-
-
+下面分别为误差图和压缩图：
+![Alt text](image.png)
 可以看到如果先将三维张量压缩为二维在进行SVD分解，之后再还原成三维的方法是不行的。造成这种结果的原因
 可能是在将三个通道压缩成一个通道之后，奇异值所代表的特征是三个通道叠加的，在进行相关压缩之后再reshape回来后
 就会出现一些错误。
@@ -175,8 +174,17 @@ plt.xlabel('奇异值数',fontproperties='SimHei')
 plt.ylabel('均方误差',fontproperties='SimHei')
 plt.show()
 ```
-# PCA主成分分析
+下面为第二次的误差图：
 
+![](image-1.png)
+
+该误差图是将奇异值从大到小进行排序后，依次减少25个奇异值并分析其误差画出来的
+折线图，可以看出在初期减少奇异值的时候误差变化并不大，原因在于刚开始减小的是一些
+数值比较小的奇异值，可以解释为这些奇异值对该图像的特征并没什么影响。   
+
+下面为第二次压缩图像：
+![](image-2.png)
+# PCA主成分分析
 主成分分析（Principal Component Analysis，简称PCA）是一种常用的数据降维和特征提取技术。它通过线性变换将原始数据投影到一个新的坐标系中，使得投影后的数据具有最大的方差。在图片压缩中，PCA可以用于降低图像的维度，从而实现图片的压缩。
 ## 数学公式表示
 给定一个$m \times n$的矩阵$D$，其PCA表示为：
@@ -256,6 +264,13 @@ plt.xlabel('保存的维数',fontproperties='SimHei')
 plt.ylabel('均方误差',fontproperties='SimHei')
 plt.show()
 ```
+得到的均方误差关于保存的维数折线关系图：  
+
+![Alt text](image-4.png)
+ 
+同时展示压缩后图片：  
+![Alt text](image-5.png)  
+
 # 总结
 从图像压缩上对比两种算法，SVD只能处理灰度图，如果想要处理彩色图片，可能需要对三个通道分别处理。
 而PCA主成分分析法则可以直接通过将三维张量reshape成二维矩阵的方式进行压缩，最后再转化为三维张量
