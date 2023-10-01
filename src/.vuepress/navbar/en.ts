@@ -18,7 +18,7 @@ export const enNavbar = navbar([
         text: "机器学习模型",
         prefix: "机器学习模型/",
         children: [
-          { text: "Lenet模型", icon: "pen-to-square", link: "" },      
+          { text: "LeNet模型", icon: "pen-to-square", link: "LeNet" },      
           ],
         },   
     ],
