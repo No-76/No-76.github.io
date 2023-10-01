@@ -28,7 +28,13 @@ export const enNavbar = navbar([
     text:"课程学习",
     icon: "pen-to-square",
     prefix:"/课程学习/",
-    children: [
+    children: [{
+      text: "数值分析",
+      prefix: "数值分析/",
+      children: [
+        { text: "线性方程组求解", icon: "pen-to-square", link: "线性方程组求解" },      
+      ],
+    },   
 
     ],
   },
