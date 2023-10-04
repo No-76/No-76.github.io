@@ -3,11 +3,11 @@ tittle: 112
 icon: pen-to-square
 date: 2023-10-2
 category:
-  - 课程学习
-
+  - 图像分类
+order: 1
 tag:
-  - LU
-  - 数值分析
+  - LeNet
+  - CNN
 ---
 
 # LeNet
