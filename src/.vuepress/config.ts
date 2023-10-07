@@ -8,7 +8,7 @@ const __dirname = getDirname(import.meta.url);
 export default defineUserConfig({
   base: "/",
   head: [
-    ['link', { rel: 'icon', href: 'touxiang.jpg' }]
+    ['link', { rel: 'icon', href: '/touxiang.jpg' }]
   ],
 
   locales: {
