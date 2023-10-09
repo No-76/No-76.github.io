@@ -15,7 +15,7 @@ export default hopeTheme({
 
 
 
-  logo:"touxiang.jpg",
+  logo:"00000.png",
 
   author: {
     name: "Lzy",

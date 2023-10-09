@@ -10,15 +10,14 @@ export const enNavbar = navbar([
       {
         text: "机器学习算法",
         prefix: "机器学习算法/",
-        children: [
-          { text: "SVD和PCA算法", icon: "pen-to-square", link: "SVD分解" },      
-        ],
+        icon: "pen-to-square",
+        children: ["机器学习基础","SVD分解"],
       },   
       {
         text: "机器学习模型",
         prefix: "机器学习模型/",
         icon: "pen-to-square",
-        children: ["LeNet","AlexNet","VGGNet","GoogLeNet"],
+        children: ["LeNet","AlexNet","VGGNet","GoogLeNet","ResNet"],
         },   
     ],
   
