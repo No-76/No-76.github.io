@@ -45,7 +45,7 @@ GoogLeNet是Google在2014年提出的一种深度卷积神经网络架构，它�
 
 ![Alt text](public/gn2.png)  
 ## 代码  
-```
+```py
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

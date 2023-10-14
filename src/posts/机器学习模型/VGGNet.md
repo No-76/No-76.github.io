@@ -38,7 +38,7 @@ VGGNet（Visual Geometry Group Network）是一种深度卷积神经网络架构
 
 5.分类器：VGGNet的最后一层是分类器，它采用了softmax激活函数，将全连接层的输出映射为每个类别的概率。根据具体的任务需求，分类器的输出层的神经元数量等于类别的数量。  
 ## 代码
-```
+```py
 import torch
 import torch.nn as nn
 

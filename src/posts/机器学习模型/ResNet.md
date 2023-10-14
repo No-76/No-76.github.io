@@ -22,9 +22,9 @@ tag:
 
 3.预训练和迁移学习：由于ResNet在大规模图像分类任务（如ImageNet）上取得了出色的性能，预训练的ResNet模型可以作为通用的图像特征提取器，并用于其他计算机视觉任务。这种预训练和迁移学习的优势使得ResNet成为了许多领域的研究和实际应用的首选模型。
 ## 模型结构  
-![Alt text](image.png)  
+![Alt text](public/resnet.png)  
 ## 代码  
-```
+```py
 import torch
 import torch.nn as nn
 

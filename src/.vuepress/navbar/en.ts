@@ -29,9 +29,8 @@ export const enNavbar = navbar([
     children: [{
       text: "数值分析",
       prefix: "数值分析/",
-      children: [
-        { text: "线性方程组求解", icon: "pen-to-square", link: "线性方程组求解" },      
-      ],
+      icon: "pen-to-square",
+      children: ["线性方程组求解","线性方程组求解(迭代法)"],
     },   
 
     ],
