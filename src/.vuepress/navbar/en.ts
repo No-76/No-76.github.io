@@ -30,7 +30,7 @@ export const enNavbar = navbar([
       text: "数值分析",
       prefix: "数值分析/",
       icon: "pen-to-square",
-      children: ["线性方程组求解","线性方程组求解(迭代法)","共轭梯度法"],
+      children: ["线性方程组求解","线性方程组求解(迭代法)","共轭梯度法","迭代法求特征值"],
     },   
 
     ],
