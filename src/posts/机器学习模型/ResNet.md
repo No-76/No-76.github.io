@@ -12,17 +12,17 @@ tag:
 # ResNet  
 深度卷积神经网络在图像分类方面取得了一系列突破。深度网络以端到端的多层方式自然地集成低/中/高级特征和分类器，并且特征的“级别”可以通过堆叠层的数量(深度)来丰富。最近的证据表明网络深度是至关重要的，在具有挑战性的ImageNet数据集上的领先结果都利用了“非常深”模型，深度为16到30。但当深度越高时候却会产生退化问题（不同于过拟合，证明如下图），ResNet则可以解决这个问题。  
 
-![Alt text](public/RS.png)
+![](public/RS.png)
 ## 优点  
 1.残差连接：ResNet引入了残差连接，通过将输入直接添加到网络的输出，构建了一个跳跃连接（skip connection），用于传递梯度和信息。这使得网络可以学习残差映射，即学习输入与输出之间的差异。这种连接方式有助于减轻梯度消失问题，让深层网络能够更容易地学习和优化。    
 
-![Alt text](public/RS2.png)  
+![](public/RS2.png)  
 
 2.残差模块：ResNet的基本构建块是残差模块，每个模块由两个或三个卷积层组成。残差模块通过残差连接实现了跨层的信息传递，使得网络可以学习更复杂的特征表示。这种模块化的结构使得网络的训练更加容易，同时也减少了参数量。  
 
 3.预训练和迁移学习：由于ResNet在大规模图像分类任务（如ImageNet）上取得了出色的性能，预训练的ResNet模型可以作为通用的图像特征提取器，并用于其他计算机视觉任务。这种预训练和迁移学习的优势使得ResNet成为了许多领域的研究和实际应用的首选模型。
 ## 模型结构  
-![Alt text](public/resnet.png)  
+![](public/resnet.png)  
 ## 代码  
 ```py
 import torch
@@ -99,4 +99,19 @@ def ResNet18(num_classes=10):
 def ResNet34(num_classes=10):
     return ResNet(BasicBlock, [3, 4, 6, 3], num_classes)
 
+```
+
+```py
+#用在训练集中
+loss = nn.CrossEntropyLoss(reduction='none’)
+
+#用在验证集中
+def evaluate_loss(data_iter, net, devices):
+    l_sum, n = 0.0, 0
+    for features, labels in data_iter:
+        outputs = net(features)
+        l = loss(outputs, labels)
+        l_sum += l.sum()
+        n += labels.numel()
+    return l_sum / n
 ```
