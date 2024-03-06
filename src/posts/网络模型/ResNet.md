@@ -102,16 +102,13 @@ def ResNet34(num_classes=10):
 ```
 
 ```py
-#用在训练集中
-loss = nn.CrossEntropyLoss(reduction='none’)
+def reorg_dog_data(data_dir, valid_ratio):
+    labels = d2l.read_csv_labels(os.path.join(data_dir, 'labels.csv'))
+    d2l.reorg_train_valid(data_dir, labels, valid_ratio)
+    d2l.reorg_test(data_dir)
 
-#用在验证集中
-def evaluate_loss(data_iter, net, devices):
-    l_sum, n = 0.0, 0
-    for features, labels in data_iter:
-        outputs = net(features)
-        l = loss(outputs, labels)
-        l_sum += l.sum()
-        n += labels.numel()
-    return l_sum / n
+
+batch_size = 32 if demo else 128
+valid_ratio = 0.1
+reorg_dog_data(data_dir, valid_ratio)
 ```

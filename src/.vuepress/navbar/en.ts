@@ -14,8 +14,8 @@ export const enNavbar = navbar([
         children: ["机器学习基础","SVD分解"],
       },   
       {
-        text: "机器学习模型",
-        prefix: "机器学习模型/",
+        text: "网络模型",
+        prefix: "网络模型/",
         icon: "pen-to-square",
         children: ["LeNet","AlexNet","VGGNet","GoogLeNet","ResNet"],
         },   
@@ -34,6 +34,11 @@ export const enNavbar = navbar([
     },   
 
     ],
+  },
+  {
+    text: "目标检测",
+    icon: "pen-to-square",
+    children: ["算法基础"],
   },
 
 ]);
