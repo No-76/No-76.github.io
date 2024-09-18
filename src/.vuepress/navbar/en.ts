@@ -38,7 +38,14 @@ export const enNavbar = navbar([
   {
     text: "目标检测",
     icon: "pen-to-square",
-    children: ["算法基础"],
+    prefix: "/目标检测/",
+    children: [{
+      text: "算法",
+      prefix: "算法/",
+      icon: "pen-to-square",
+      children: ["算法基础"],
+    }, ],
+    
   },  
   
   {

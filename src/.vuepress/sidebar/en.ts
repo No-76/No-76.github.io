@@ -22,7 +22,7 @@ export const enSidebar = sidebar({
       icon: "book",
       prefix: "目标检测/",
       link: "/",
-      children: ["算法基础"],
+      children: "structure",
       
     },
     {
