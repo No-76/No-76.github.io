@@ -39,6 +39,30 @@ export const enNavbar = navbar([
     text: "目标检测",
     icon: "pen-to-square",
     children: ["算法基础"],
+  },  
+  
+  {
+    text: "论文学习",
+    icon: "pen-to-square",
+    prefix: "/论文学习/",
+    children: [],
+  
+  },  
+  {
+    text: "算法笔记",
+    icon: "pen-to-square",
+    prefix: "/算法笔记/",
+    children: [
+      {
+        text: "F",
+        prefix: "F/",
+        icon: "pen-to-square",
+        children: ["字符串","树"],
+      },   
+      
+    ],
+  
   },
+
 
 ]);
