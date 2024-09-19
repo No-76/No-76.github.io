@@ -60,12 +60,13 @@ export const enNavbar = navbar([
     icon: "pen-to-square",
     prefix: "/算法笔记/",
     children: [
+        "函数",
       {
         text: "F",
         prefix: "F/",
         icon: "pen-to-square",
         children: ["字符串","树"],
-      },   
+      }, 
       
     ],
   
