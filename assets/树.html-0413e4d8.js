@@ -1,0 +1,1 @@
+import{_ as t,o as a,c as o,a as c,b as e,d as r}from"./app-0d8b0311.js";const s={},n=e("h1",{id:"树",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#树","aria-hidden":"true"},"#"),r(" 树")],-1),_=e("p",null,"本文主要介绍幂迭代、逆幂迭代求最大最小特征值与QR分解和QR算法。",-1);function d(l,i){return a(),o("div",null,[n,_,c(" more ")])}const m=t(s,[["render",d],["__file","树.html.vue"]]);export{m as default};
