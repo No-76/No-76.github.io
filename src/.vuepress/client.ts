@@ -1,9 +1,7 @@
 // .vuepress/client.ts
-import { defineClientConfig } from "@vuepress/client";
+import { defineClientConfig } from "vuepress/client";
 import { setupRunningTimeFooter } from "vuepress-theme-hope/presets/footerRunningTime.js";
-import "vuepress-theme-hope/presets/left-blog-info.scss"
-import "vuepress-theme-hope/presets/bounce-icon.scss"
-import "vuepress-theme-hope/presets/shinning-feature-panel.scss"
+import { setupTransparentNavbar } from "vuepress-theme-hope/presets/transparentNavbar.js";
 
 export default defineClientConfig({
     setup() {
@@ -14,5 +12,6 @@ export default defineClientConfig({
             },
             true,
         );
+    
     },
 });

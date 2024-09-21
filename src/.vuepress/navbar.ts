@@ -1,6 +1,7 @@
 import { navbar } from "vuepress-theme-hope";
 
-export const enNavbar = navbar([
+
+export default navbar([
   "/",
   {
     text: "机器学习",
@@ -52,7 +53,7 @@ export const enNavbar = navbar([
     text: "论文学习",
     icon: "pen-to-square",
     prefix: "/论文学习/",
-    children: [],
+    children: ["transfomer"],
   
   },  
   {

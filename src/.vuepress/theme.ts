@@ -1,19 +1,24 @@
 import { hopeTheme} from "vuepress-theme-hope";
-import { enNavbar} from "./navbar";
-import { enSidebar} from "./sidebar";
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
+
+
+import navbar from "./navbar.js";
+import sidebar from "./sidebar.js";
+
+
 
 
 export default hopeTheme({
-  navbarLayout: {
+  
+ 
+ navbarLayout: {
     start: ["Brand"],
     center: ["Links"],
-    end: ["Language", "Repo", "Outlook", "Search"],
-  },
+    end: [ "Repo", "Outlook", "Search"],
+ },
 
   hostname: "https://GSpotMan.github.io",
 
-
+  
 
   logo:"00000.png",
 
@@ -25,55 +30,49 @@ export default hopeTheme({
   iconAssets: "fontawesome-with-brands",
 
 
-
-
   repo: "GSPotMan/my-doc",
-
+  
   docsDir: "src",
+  // 导航栏
+  navbar,
+
+  // 侧边栏
+  sidebar,
+
+  // 页脚
+  footer: "默认页脚",
+  displayFooter: true,
 
   blog: {
+    description: "学习笔记",
+    intro: "/intro.html",
+    sidebarDisplay:"mobile",
     medias: {
 
 
     },
-  },
-
-  locales: {
-    "/": {
-      // navbar
-      navbar: enNavbar,
-
-      // sidebar
-      sidebar: enSidebar,
-
-      footer: "Default footer",
-
-      displayFooter: true,
-
-      blog: {
-        description: "学习笔记",
-        intro: "/intro.html",
-      },
-
-      metaLocales: {
-        editLink: "Edit this page on GitHub",
-      },
-    },
-
-
-  },
+  }, 
+  metaLocales: {
+    editLink: "Edit this page on GitHub",
+    }, 
 
   encrypt: {
     config: {
       "/demo/encrypt.html": ["1234"],
     },
   },
-
+  // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
+  hotReload: true,
   plugins: {
-
-
+    
+    markdownMath: {
+      type: "katex", // 或 'mathjax'
+  },
 
     blog: true,
+    // components: {
+    //   components: ["Badge", "VPCard"],
+    // },
     //
     // comment: {
     //   // You should generate and use your own comment service
@@ -82,26 +81,22 @@ export default hopeTheme({
     // },
 
     // all features are enabled for demo, only preserve features you need here
+
+    markdownImage: {
+      figure: true,
+      lazyload: true,
+      size: true,
+    }, 
     mdEnhance: {
       align: true,
       attrs: true,
-      chart: true,
       codetabs: true,
+      component: true,
       demo: true,
-      echarts: true,
-      figure: true,
-      flowchart: true,
-      gfm: true,
-      imgLazyload: true,
-      imgSize: true,
       include: true,
-      katex: true,
       mark: true,
-      mermaid: true,
-      playground: {
-        presets: ["ts", "vue"],
-      },
-      presentation: ["highlight", "math", "search", "notes", "zoom"],
+      plantuml: true,
+      spoiler: true,
       stylize: [
         {
           matcher: "Recommended",
@@ -118,10 +113,42 @@ export default hopeTheme({
       sub: true,
       sup: true,
       tabs: true,
+      tasklist: true,
       vPre: true,
-      vuePlayground: true,
-    },
 
+      // 在启用之前安装 chart.js
+      // chart: true,
+
+      // insert component easily
+
+      // 在启用之前安装 echarts
+      // echarts: true,
+
+      // 在启用之前安装 flowchart.ts
+      // flowchart: true,
+
+      // gfm requires mathjax-full to provide tex support
+      gfm: true,
+
+      // 在启用之前安装 mermaid
+      // mermaid: true,
+
+      // playground: {
+      //   presets: ["ts", "vue"],
+      // },
+
+      // 在启用之前安装 reveal.js
+      // revealJs: {
+      //   plugins: ["highlight", "math", "search", "notes", "zoom"],
+      // },
+
+      // 在启用之前安装 @vue/repl
+      // vuePlayground: true,
+
+      // install sandpack-vue3 before enabling it
+      // sandpack: true,
+    },
+    
 
 
 
@@ -181,5 +208,8 @@ export default hopeTheme({
     //     ],
     //   },
     // },
+  
+  
+  
   },
 },{custom: true});
