@@ -75,6 +75,7 @@ export default hopeTheme({
       size: true,
     },
     markdownMath: true,
+
     mdEnhance: {
       align: true,
       attrs: true,
@@ -117,7 +118,7 @@ export default hopeTheme({
       // flowchart: true,
 
       // gfm requires mathjax-full to provide tex support
-      // gfm: true,
+      gfm: true,
 
       // 在启用之前安装 mermaid
       // mermaid: true,
