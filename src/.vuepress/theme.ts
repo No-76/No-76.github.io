@@ -1,15 +1,11 @@
-import { hopeTheme} from "vuepress-theme-hope";
-
-
+import {hopeTheme} from "vuepress-theme-hope";
 import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
-
-
-
 
 export default hopeTheme({
   
  
+
  navbarLayout: {
     start: ["Brand"],
     center: ["Links"],
@@ -17,8 +13,6 @@ export default hopeTheme({
  },
 
   hostname: "https://GSpotMan.github.io",
-
-  
 
   logo:"00000.png",
 
@@ -48,8 +42,6 @@ export default hopeTheme({
     intro: "/intro.html",
     sidebarDisplay:"mobile",
     medias: {
-
-
     },
   }, 
   metaLocales: {
@@ -63,12 +55,7 @@ export default hopeTheme({
   },
   // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
   hotReload: true,
-  plugins: {
-    
-    markdownMath: {
-      type: "katex", // 或 'mathjax'
-  },
-
+  plugins: {  
     blog: true,
     // components: {
     //   components: ["Badge", "VPCard"],
@@ -86,7 +73,8 @@ export default hopeTheme({
       figure: true,
       lazyload: true,
       size: true,
-    }, 
+    },
+    markdownMath: true,
     mdEnhance: {
       align: true,
       attrs: true,
@@ -115,6 +103,7 @@ export default hopeTheme({
       tabs: true,
       tasklist: true,
       vPre: true,
+      
 
       // 在启用之前安装 chart.js
       // chart: true,
@@ -128,7 +117,7 @@ export default hopeTheme({
       // flowchart: true,
 
       // gfm requires mathjax-full to provide tex support
-      gfm: true,
+      // gfm: true,
 
       // 在启用之前安装 mermaid
       // mermaid: true,

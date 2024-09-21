@@ -3,6 +3,7 @@ import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 import { watermarkPlugin } from '@vuepress/plugin-watermark'
 const __dirname = getDirname(import.meta.url);
+
 export default defineUserConfig({
   base: "/", 
   lang: "zh-CN",
