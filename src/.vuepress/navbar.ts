@@ -53,7 +53,7 @@ export default navbar([
     text: "论文学习",
     icon: "pen-to-square",
     prefix: "/论文学习/",
-    children: ["transfomer"],
+    children: ["transformer"],
   
   },  
   {
