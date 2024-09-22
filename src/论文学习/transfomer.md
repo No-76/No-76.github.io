@@ -48,7 +48,47 @@ $$ \alpha_{ij} = \frac{\exp\left(e_{ij}\right)}{\sum_{k=1}^{T_x} \exp\left(e_{ik
 其次是参数$\alpha_{ij}$，它由评分$e_{ij}$求得：
 $$ e_{ij} = a(s_{i-1}, h_j) $$  
 而评分通过a函数计算来计算编码器与解码器中隐藏状态的相关性，通常是用点乘的方式计算两个向量的相关性评分$e_{ij}$，而显然通过累乘$\alpha_{ij}$（评分占比）与$e_{ij}$（评分）再相加之后就实现了两种语言的对齐，即由输入词的注释转换为输出词的注释。
+## Transformer
+在理解了编码器解码器以及注意力机制之后再来看transformer中的模型和公式就很好理解了，但是在模型图中并没有详解区分使用的是否是自注意力，只有解码器中子层第二层使用的不是自注意力。
+### Transformer中的编码器与解码器  
+ ![](image-3.png)  
+#### 编码器 
 
+Transformer论文中的编码器由N = 6个相同层的堆栈组成。每一层有两个子层。第一种是多头自注意机制，第二种是简单的、位置完全连接的前馈网络。每个子层后面都跟着一个残差连接和层归一化操作：   
+
+* **多头自注意力机制（Multi-Head Self-Attention）子层:** 这一层允许模型在处理每个单词时考虑到整个输入序列，从而捕获序列内部的依赖关系。自注意力机制通过计算每个单词对于序列中所有单词的注意力权重来实现。  
+
+* **前馈神经网络（Feed-Forward Neural Network）：** 这一层对自注意力层的输出进行进一步的非线性变换。   
+
+#### 解码器 
+Transformer论文中的解码器也由N = 6层相同的堆栈组成。每个层包含三个重要的子层，每个子层后面都跟着一个残差连接和层归一化操作：
+
+* **掩码多头自注意力（Masked Multi-Head Self-Attention）：** 论文中画的这一层确保解码器在预测每个单词时只能访问到它之前的位置，这是通过使用掩码（Mask）来实现的，以防止信息泄露。
+掩码通常是上三角形矩阵，其中非对角线上方的元素被设置为一个非常大的负数（如负无穷大），这样在经过 SoftMax 函数后，这些位置的注意力权重会接近于零。
+  
+* **编码器-解码器注意力（Encoder-Decoder Attention）：** 这一层允许解码器关注编码器的输出，从而将源序列的信息融入到目标序列的生成中。这一层使用编码器的输出作为 Key 和 Value，解码器的上一层输出作为 Query。  
+
+* **前馈神经网络（Feed-Forward Neural Network）:** 这一层对自注意力层的输出进行进一步的非线性变换。
+### Transformer中的注意力机制  
+Transformer论文中提到了两种注意力机制分别是基于缩放的点积自注意力（Scaled Dot-Product Attention）和多头注意力机制（Multi-Head Attention），并在数学公式中提到了QKV三个矩阵，而**区分是否是自注意力的关键就是QK和V是否来源于同一序列内部**。  
+![](image-4.png)  
+#### 基于缩放的点积自注意力（Scaled Dot-Product Attention）
+理解Transformer中的注意力机制的关键是理解其中的QKV矩阵：
+
+$$\operatorname{Attention}(Q, K, V) = \operatorname{softmax}\left(\frac{Q K^T}{\sqrt{d_k}}\right) V$$ 
+
+在Transfomer论文中提到前文所讲到的注意力为additive attention，而dot-product和它的唯一区别是 $\frac{1}{\sqrt{d_k}}$,但是点乘注意力因为是矩阵运算的原因更快，更节省空间。在$ e_{ij} = a(s_{i-1}, h_j) $中,$ s_{i-1} $对应的便是Q，即待查询的，而$ h_j $对应的便是$ K $，可以理解为查询操作中数据库中的键值，需要遍历它，通过计算查询矩阵Q和键矩阵K的点积，得到一个得分矩阵（scores）对应的便是$ e_{ij} $。 而softmax操作对应的是$ \alpha_{ij} = \frac{\exp\left(e_{ij}\right)}{\sum_{k=1}^{T_x} \exp\left(e_{ik}\right)} $，V对应的是$ c_i = \sum_{j=1}^{T_x} \alpha_{ij} h_j $中的$ h_j $。下面介绍细节操作Scale和Mask：  
+
+* **缩放操作：** 为了稳定训练过程，避免点积结果过大，将得分矩阵的每个元素除以一个缩放因子，通常是键向量维度$d_k$的平方根。这样做是因为在高维空间中，点积的结果可能会非常大，导致 softmax 函数的梯度很小，从而影响模型的学习效率。  
+* **掩码操作（在解码器中使用）：** 在解码器中，为了保持输出的自回归特性，需要防止位置关注到后续位置。这通过在计算 softmax 之前应用一个掩码（mask）来实现，将非法位置的得分设置为一个非常大的负数（如负无穷大），这样在 softmax 之后这些位置的权重就会接近于零。而掩码矩阵通常通过上三角矩阵实现出类似前文RNN中只与先前状态有关的隐藏状态。  
+#### 多头注意力机制（Multi-Head Attention） 
+多头注意力机制（Multi-Head Attention）可以被看作是将普通的注意力机制扩展到了多通道（或多表示子空间）。这种机制通过将输入分割成多个头，每个头独立地学习序列的不同方面或不同特征，然后将这些头的输出合并起来，以此来增强模型的表示能力。多头注意力允许同时在多个子空间中进行计算，这使得模型能够更高效地利用并行计算资源，如 GPU，从而加快训练和推理速度。而且通过在多个头中进行注意力计算，模型能够增加处理的深度，这有助于捕捉更复杂的特征和更长距离的依赖关系。具体的公式如下：
+$$
+\begin{align*}
+\text{MultiHead}(Q, K, V) &= \text{Concat}\left(\text{head}_1, \ldots, \text{head}_h\right) W^O \\
+\text{where head}_i &= \text{Attention}\left(Q W_i^Q, K W_i^K, V W_i^V\right)
+\end{align*}
+$$
 
 
 
