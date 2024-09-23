@@ -75,6 +75,7 @@ export default hopeTheme({
       size: true,
     },
     markdownMath: true,
+    // markdownTab: true,
 
     mdEnhance: {
       align: true,
