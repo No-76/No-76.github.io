@@ -12,19 +12,19 @@ export default hopeTheme({
     end: [ "Repo", "Outlook", "Search"],
  },
 
-  hostname: "https://GSpotMan.github.io",
+  hostname: "https://github.com/No-76",
 
   logo:"00000.png",
 
   author: {
     name: "Lzy",
-    url: "https://GSpotMan.com",
+    url: "https://github.com/No-76",
   },
 
   iconAssets: "fontawesome-with-brands",
 
 
-  repo: "GSPotMan/my-doc",
+  repo: "No-76/my-doc",
   
   docsDir: "src",
   // 导航栏
