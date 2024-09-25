@@ -75,12 +75,12 @@ export default hopeTheme({
       size: true,
     },
     markdownMath: true,
-    // markdownTab: true,
-
+    markdownTab: true,
+    
     mdEnhance: {
       align: true,
       attrs: true,
-      codetabs: true,
+      
       component: true,
       demo: true,
       include: true,
@@ -102,7 +102,7 @@ export default hopeTheme({
       ],
       sub: true,
       sup: true,
-      tabs: true,
+     
       tasklist: true,
       vPre: true,
       
