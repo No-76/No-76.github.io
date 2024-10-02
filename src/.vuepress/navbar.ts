@@ -68,10 +68,16 @@ export default navbar([
         icon: "pen-to-square",
         children: ["字符串","树"],
       }, 
-      
     ],
   
   },
+  {
+    text: "java笔记",
+    icon: "pen-to-square",
+    prefix: "/java笔记/",
+    children: ["SpringBoot"],
+  
+  },  
 
 
 ]);

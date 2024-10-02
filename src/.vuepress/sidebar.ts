@@ -41,6 +41,14 @@ export default sidebar({
       children: "structure",
       
     },
+    {
+      text: "java笔记",
+      icon: "book",
+      prefix: "java笔记/",
+      link: "java笔记/",
+      children: "structure",
+      
+    },
 
   ],
 });
