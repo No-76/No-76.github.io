@@ -45,7 +45,9 @@ SpringBoot有三大特点分别为：
 意思是资格赛，匹配符，通过与Autowored注解同时使用来标注使用哪个bean对象。  
 - ```@Resource```  
 并不是springboot注解，而是jdk注解，不需要与Autowired配合使用，相当于Autowired+Qualifier
-
+### Mybatis注解
+- ```@Options```   
+使用方法：```@Options(keyProperty = "id",useGeneratedKeys=true)```，放在Insert注解之上时，构造的新增对象会拿到一个主键的返回值，否则无返回值。
 
 ## 请求
 - 实体参数  
@@ -67,3 +69,18 @@ public String path(@PathVariable Integer id, @PathVariable String name){}
 - 统一响应  
 使用方法：通过构造实体类以包含各种类型的数据，Integer,String等，```Public "自定义类" name（类名）```,通过写入get，set方法进行包装。
 
+## Mybatis
+### 参数占位符  
+- #{...}  
+  - 执行SQL时，会将#{...}替换为？，生成预编译SQL，会自动设置参数。
+  - 使用时机：参数传递时，都使用#{...}。
+- ${...}
+  - 拼接SQL,直接将参数拼接到SQL语句中，存在SQL注入问题。登录密码千万不要这样设置。
+  - 使用时机，如果对表明，列表名进行动态设置时。
+  ### XML映射标签  
+- ```<if>```
+- ```<where>```
+- ```<set>```
+- ```<foreach>```
+- ```<sql> ```
+- ```<include>```
