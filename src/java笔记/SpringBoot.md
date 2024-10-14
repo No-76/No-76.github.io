@@ -17,7 +17,6 @@ tag:
 - 方案一：@ComponentScan，通过该注解，只能扫到包内bean。（使用繁琐）  
 - 方案二：@Import导入，使用该注解导入的类会被加载导IOC容器内。并且可以使用@Enablexxxx注解，封装@Import注解。   
 ## 注解
-
 - ```@SpringBootApplication```  
 启动类注解由三部分组成：  
     - ```@SpringBootConfiguration```：声明是一个配置类，因此是可以引入Bean对象的。  
