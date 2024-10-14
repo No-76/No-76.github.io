@@ -62,11 +62,12 @@ export default navbar([
     prefix: "/算法笔记/",
     children: [
         "函数",
+        "套路",
       {
         text: "F",
         prefix: "F/",
         icon: "pen-to-square",
-        children: ["字符串","树","回溯"],
+        children: ["字符串","树","回溯","动态规划"],
       }, 
     ],
   
@@ -75,7 +76,7 @@ export default navbar([
     text: "java笔记",
     icon: "pen-to-square",
     prefix: "/java笔记/",
-    children: ["SpringBoot"],
+    children: ["Spring","SpringBoot","Mybatis及Plus","注解"],
   
   },  
 
