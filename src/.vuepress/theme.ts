@@ -36,6 +36,7 @@ export default hopeTheme({
   // 页脚
   footer: "默认页脚",
   displayFooter: true,
+  contributors: false,
 
   blog: {
     description: "学习笔记",
@@ -44,8 +45,10 @@ export default hopeTheme({
     medias: {
     },
   }, 
+
   metaLocales: {
-    editLink: "Edit this page on GitHub",
+    editLink: "编辑此页",
+   
     }, 
 
   encrypt: {
