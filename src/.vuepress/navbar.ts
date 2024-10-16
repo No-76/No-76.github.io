@@ -76,7 +76,7 @@ export default navbar([
     text: "java笔记",
     icon: "pen-to-square",
     prefix: "/java笔记/",
-    children: ["Spring","SpringBoot","Mybatis及Plus","注解"],
+    children: ["Spring","工具相关","注解"],
   
   },  
 
