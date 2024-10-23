@@ -23,7 +23,20 @@ Spring特点有：
 - 面向切面编程（AOP）:  
   1.连接点：Joinpoint，可以被AOP控制的方法  
   2.通知：Advice，重复的逻辑，也就是公用的控制方法  
-  3.切入点：Pointcut，匹配连接点的条件，通知仅在切入点方法执行时应用。  
+  3.切入点：Pointcut，匹配连接点的条件，通知仅在切入点方法执行时应用。 
+## Spring Cash
+Spring Cash是一个框架，实现了基于注解的缓存功能，只需要加一个注解，就能实现缓存功能。
+Spring Cash提供了一层抽象，底层可以切换不同的缓存实现，例如EHCash，Caffeine，Redis。以下为一些注解：  
+
+```@EnableCashing:```开启缓存功能，通常加在启动类上  
+```@Cacheable:```在方法执行前查询缓存中是否有数据，通常加载方法上。如果有则返回，无则调用方法放入缓存(既能取又能放，常用于查询)  
+```@CachePut:```将方法的返回值放到缓存中(常用于增加)  
+```@CacheEvict:```将一条或多条数据从缓存删除(常用于数据库删除方法)  
+使用方法示例：
+```Java
+@CachePut(cacheNames="userCache",key="#user.id"/key="result.id"(返回结果)/key="p0/a0.id")(第一个参数)
+// @Cahceable同理，可用于查询数据库方法。
+```
 ## 会话技术
 ![](image.png)  
 登陆过程需要建立一次会话，因为HTTP协议是无状态的，在一次会话中可以包含多次请求和响应。
