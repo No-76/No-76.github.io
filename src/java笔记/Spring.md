@@ -24,19 +24,7 @@ Spring特点有：
   1.连接点：Joinpoint，可以被AOP控制的方法  
   2.通知：Advice，重复的逻辑，也就是公用的控制方法  
   3.切入点：Pointcut，匹配连接点的条件，通知仅在切入点方法执行时应用。 
-## Spring Cash
-Spring Cash是一个框架，实现了基于注解的缓存功能，只需要加一个注解，就能实现缓存功能。
-Spring Cash提供了一层抽象，底层可以切换不同的缓存实现，例如EHCash，Caffeine，Redis。以下为一些注解：  
 
-```@EnableCashing:```开启缓存功能，通常加在启动类上  
-```@Cacheable:```在方法执行前查询缓存中是否有数据，通常加载方法上。如果有则返回，无则调用方法放入缓存(既能取又能放，常用于查询)  
-```@CachePut:```将方法的返回值放到缓存中(常用于增加)  
-```@CacheEvict:```将一条或多条数据从缓存删除(常用于数据库删除方法)  
-使用方法示例：
-```Java
-@CachePut(cacheNames="userCache",key="#user.id"/key="result.id"(返回结果)/key="p0/a0.id")(第一个参数)
-// @Cahceable同理，可用于查询数据库方法。
-```
 ## 会话技术
 ![](image.png)  
 登陆过程需要建立一次会话，因为HTTP协议是无状态的，在一次会话中可以包含多次请求和响应。
@@ -107,4 +95,25 @@ public String path(@PathVariable Integer id, @PathVariable String name){}
     - ```@ComponentScan```  
     - ```@EnableConfiguration```：主要通过封装@Import注解实现。  
 - ```@Conditional```  
-作用到方法或类之上，按照一定条件进行判断，符合条件才会注册Bean对象到IOC容器中。
+作用到方法或类之上，按照一定条件进行判断，符合条件才会注册Bean对象到IOC容器中。  
+## Spring Cash
+Spring Cash是一个框架，实现了基于注解的缓存功能，只需要加一个注解，就能实现缓存功能。
+Spring Cash提供了一层抽象，底层可以切换不同的缓存实现，例如EHCash，Caffeine，Redis。以下为一些注解：  
+
+```@EnableCashing:```开启缓存功能，通常加在启动类上  
+```@Cacheable:```在方法执行前查询缓存中是否有数据，通常加载方法上。如果有则返回，无则调用方法放入缓存(既能取又能放，常用于查询)  
+```@CachePut:```将方法的返回值放到缓存中(常用于增加)  
+```@CacheEvict:```将一条或多条数据从缓存删除(常用于数据库删除方法)  
+使用方法示例：
+```Java
+@CachePut(cacheNames="userCache",key="#user.id"/key="result.id"(返回结果)/key="p0/a0.id")(第一个参数)
+// @Cahceable同理，可用于查询数据库方法。
+```  
+## Spring Task 
+是一个很小的框架，甚至不需要maven手动导入，只需要在项目启动类通过添加注解```@EnableScheduling```即可启动。  
+- 使用方法：通过在方法上使用注解```@Scheduled(cron = '..')```使用，其中cron表达式可以在线生成。
+### cron表达式  
+cron表达式其实是一个字符串，通过cron表达式可以**定义任务触发的时间**  
+构成规则：分为6或7个域，用空格隔开，分别代表：秒、分钟、小时、日、月、周、年(可选)     
+
+在<a href="https://cron.qqe2.com/" target="_blank">在线Cron表达式生成器</a>里可以根据需要自动生成所需要的表达式。

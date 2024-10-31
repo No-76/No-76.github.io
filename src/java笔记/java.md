@@ -1,23 +1,70 @@
 ---
-tittle: 函数
+tittle: java
 icon: pen-to-square
 date: 2024-9-18
 category:
-  - 算法笔记
+  - java笔记
 timeline: true 
 tag:
   - 函数
   - 算法
 ---
-# 函数
-
+# java
 暂无
 <!-- more -->
-## java库
-### Java 中的 Collections
+## java数据结构
+### Java 中的队列和栈
+```java
+Deque<String> stack = new ArrayDeque<String>();
+```    
+**通常使用以上双端队列来模拟队列和栈**  
+1. **插入方法**
+   - **`addFirst(E e)`**：在队列头部插入一个元素。
+   - **`addLast(E e)`**：在队列尾部插入一个元素。
+   - **`offerFirst(E e)`**：在队列头部插入一个元素，如果成功返回 `true`。
+   - **`offerLast(E e)`**：在队列尾部插入一个元素，如果成功返回 `true`。
+2. **移除方法**
+   - **`removeFirst()`**：移除并返回队列头部的元素，如果队列为空则抛出 `NoSuchElementException`。
+   - **`removeLast()`**：移除并返回队列尾部的元素，如果队列为空则抛出 `NoSuchElementException`。
+   - **`pollFirst()`**：移除并返回队列头部的元素，如果队列为空则返回 `null`。
+   - **`pollLast()`**：移除并返回队列尾部的元素，如果队列为空则返回 `null`。  
+## Java 中的列表  
+1. **ArrayList**：动态数组，支持随机访问。
+2. **LinkedList**：链表，支持插入和删除操作。
+3. **Vector**：线程安全的 ArrayList，支持同步访问。  
+### 列表转数组方法  
+```java
+Object[] array = list.toArray();  
+```
+该方法返回的是一个 Object 数组，而不是 T[] 类型的数组。如果想要一个Integer数组，可以使用如下代码：
+```java
+Integer[] array = nums.toArray(new Integer[0]);
+```  
+通过new Integer[0]来避免自动装箱为Object[]，而因为0的存在限制了箱子大小，toArray()会创建一个大小合适的新数组。  
+**注意：** Integer数组存储的是对象引用，每个引用占用4个字节（在32位和64位的JVM中），但每个Integer对象本身在堆上分配，所以实际上占用的内存更多。     
 
+如果想要一个int类型数组，可以使用如下代码：
+```java
+var array = nums.stream().mapToInt(i -> i).toArray();
+```
+## Java库函数
+### Stream
+Stream流主要用在集合（Collection）类型数据的处理上，例如：过滤、映射、排序、查找等。  
+1. **过滤**：使用 `filter()` 方法，根据给定的条件（例如，大于 5）来过滤出符合条件的元素。
+2. **映射**：使用 `map()` 方法，将集合中的每个元素应用一个函数，得到一个新集合。
+3. **排序**：使用 `sorted()` 方法，对集合进行排序。
+4. **查找**：使用 `findAny()` 或 `findFirst()` 方法，返回流中的任意一个元素或第一个元素。
+5. **收集**：使用 `collect()` 方法，将流中的元素收集到一个集合中。collect 方法是 Terminal Operation，这意味着一旦执行了 collect 操作，流就会被消费，不能再被使用。
+```java
+List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+List<Integer> result = list.stream()
+                           .filter(n -> n > 5) // 过滤出大于5的元素
+                           .map(n -> n * 2) // 映射每个元素乘以2
+                           .sorted() // 对结果进行排序
+                           .collect(Collectors.toList());
+```
+### Collections
 在 Java 中，`Collections` 是一个位于 `java.util` 包中的类，它包含了一系列静态方法，用于操作和返回集合（Collection）类型的实例。这些方法主要用于对集合进行排序、搜索、替换、倒转等操作。以下是一些常用的 `Collections` 类方法：
-
 1. **排序**
    - `sort(List<?> list)`: 按自然顺序对指定列表进行排序。
    - `sort(List<?> list, Comparator<? super T> c)`: 按提供的比较器对列表进行排序。
@@ -27,54 +74,17 @@ tag:
    - `binarySearch(List<? extends T> list, T key, Comparator<? super T> c)`: 在使用比较器排序的列表中二分查找指定元素。
    - `max(Collection<? extends T> coll)`: 返回集合中的最大元素。
    - `min(Collection<? extends T> coll)`: 返回集合中的最小元素。
-
 3. **替换**
    - `replaceAll(List<?> list, Object oldVal, Object newVal)`: 将列表中所有等于 `oldVal` 的元素替换为 `newVal`。
-
 4. **倒转**
    - `reverse(List<?> list)`: 反转列表的顺序。
-
-5. **随机访问**
-   - `shuffle(List<?> list)`: 使用默认随机源对列表进行随机重排。
-   - `shuffle(List<?> list, Random rnd)`: 使用指定的随机源对列表进行随机重排。
-
-6. **同步控制**
-   - `synchronizedList(List<T> list)`: 返回一个线程安全的列表，所有可变操作都是同步的。
-
-7. **不可变视图**
-   - `unmodifiableList(List<? extends T> list)`: 返回一个不可修改的列表视图，任何修改尝试都会抛出 `UnsupportedOperationException`。
-
 8. **空集合**
    - `emptyList()`: 返回一个空的、不可修改的列表。
    - `emptySet()`: 返回一个空的、不可修改的集合。
    - `emptyMap()`: 返回一个空的、不可修改的映射。
-
-### Java 中的 队列
-1. **添加元素**
-   - **`add(E e)`**：将元素 `e` 添加到队列的末尾。如果队列满了，则抛出 `IllegalStateException`。
-   - **`offer(E e)`**：将元素 `e` 添加到队列的末尾。如果队列满了，则返回 `false`，不抛出异常。
-
-2. **移除元素**
-   - **`remove()`**：移除并返回队列头部的元素。如果队列为空，则抛出 `NoSuchElementException`。
-   - **`poll()`**：移除并返回队列头部的元素。如果队列为空，则返回 `null`。
-
-3. **查看元素**
-   - **`element()`**：返回队列头部的元素但不移除它。如果队列为空，则抛出 `NoSuchElementException`。
-   - **`peek()`**：返回队列头部的元素但不移除它。如果队列为空，则返回 `null`。
-
-4. **检查队列状态**
-   - **`isEmpty()`**：如果队列为空，则返回 `true`。
-   - **`size()`**：返回队列中的元素数量。
-
-5. **转换为数组**
-   - **`toArray()`**：返回一个包含队列中所有元素的数组。
-   - **`toArray(T[] a)`**：返回一个包含队列中所有元素的数组；数组的运行时类型是指定数组的类型。如果指定数组能够容纳队列，则队列中的元素将被存储在这个数组中，否则将分配一个具有指定数组运行时类型和适当大小的新数组。
-
-6. **清空队列**
-- **`clear()`**：移除队列中的所有元素。
-
-## 字符串
-
+## Java中对象类方法
+都继承自Object类。
+### String
 **查询子串**  
 * java:  
 1.indexOf(String str)：返回子字符串 str 在字符串中第一次出现的索引。  
@@ -121,3 +131,4 @@ String result = String.join(" ",wordList);
 ```  
 1. tirm(): 用于去除首尾的全部空格和换行符，如果不适用tirm得到的结果["", "Hello", "World"， ""]，相比原结果两端有空白字符。
 2. split(): 这里使用转义字符加正则表达式\s+来匹配多个空格，因为在Java中" "这种空格只能匹配单个空格，无法匹配多个。
+
