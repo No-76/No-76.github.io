@@ -63,6 +63,10 @@ List<Integer> result = list.stream()
                            .sorted() // 对结果进行排序
                            .collect(Collectors.toList());
 ```
+返回HashMap中最大的值如何操作：
+```java
+return map.entrySet().stream().mapToInt(Entry::getValue).max().orelse(0);
+```
 ### Collections
 在 Java 中，`Collections` 是一个位于 `java.util` 包中的类，它包含了一系列静态方法，用于操作和返回集合（Collection）类型的实例。这些方法主要用于对集合进行排序、搜索、替换、倒转等操作。以下是一些常用的 `Collections` 类方法：
 1. **排序**
