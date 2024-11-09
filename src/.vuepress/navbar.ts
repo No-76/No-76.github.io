@@ -66,7 +66,7 @@ export default navbar([
         text: "F",
         prefix: "F/",
         icon: "pen-to-square",
-        children: ["字符串","树","回溯","动态规划","图"],
+        children: ["字符串","树","回溯","动态规划","图","单调栈"],
       }, 
     ],
   
