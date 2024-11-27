@@ -117,3 +117,66 @@ cron表达式其实是一个字符串，通过cron表达式可以**定义任务�
 构成规则：分为6或7个域，用空格隔开，分别代表：秒、分钟、小时、日、月、周、年(可选)     
 
 在<a href="https://cron.qqe2.com/" target="_blank">在线Cron表达式生成器</a>里可以根据需要自动生成所需要的表达式。
+## 标记性接口  
+记性接口（Marker Interface）是一种不包含任何方法的接口。这种接口的唯一目的是通过实现或继承来标记类，提供某种类型的信息。标记性接口通常用于以下目的：
+提供类型信息：标记性接口可以被用来指示某个类具有某种特质或行为，即使它们不包含任何方法。
+
+1. 过滤和筛选：在某些框架中，标记性接口可以用来过滤或筛选出具有特定标记的类。
+
+2. 配置和元数据：标记性接口可以用作配置或元数据，以指示某些特定的配置选项或行为。
+
+3. 兼容和扩展：在设计API时，标记性接口可以被用来扩展功能，而不需要修改现有的类。
+
+4. 注解和反射：标记性接口可以与注解一起使用，通过反射来识别和处理具有特定标记的类。        
+
+有以下这些常用的标记行接口：  
+- org.springframework.stereotype.Component
+
+- org.springframework.transaction.annotation.Transactional
+
+- java.io.Serializable
+
+- java.lang.Cloneable
+## 微服务
+### 网关  
+![alt text](image-7.png)  
+通过Spring Cloud Gateway，可以轻松实现网关，网关也是一个服务。
+### 手写负载均衡  
+```java
+//1.通过SoringCloud接口DiscoverClient创建对象
+private final DiscoverClient discoverClient;
+//2. 获取服务列表
+List<ServiceInstance instancse = discoverClient.getInstances("service-name");
+//3. 通过负载均衡获取示例调用
+return instancse.get(RandomUtil.randomInt(instancse.size())));
+```
+### Nacos
+解决页面请求访问哪个服务的问题。通过1.引入相关依赖和2.配置文件自动完成服务注册。
+### openfeign
+1. **使用方法**     
+
+是一个声明式的http客户端，基于常见的注解，帮助实现http请求的发送。使用时需要1.引入feign依赖和负载均衡依赖loadbalancer，2.使用用EnableFeignClients注解启动类，3.创建客户端，通过创建接口实现。其中创建客户端代码如下：  
+```Java
+@FeignClient("item-service")
+public interface itemClient {
+    @GetMapping("/items")
+    List<ItemDTO> queryItemByIds(@RequestParam("ids") List<Long> ids);
+}
+```  
+且该方法不需要手动实现(原理是实现了动态代理InvocationHandler)，客户端自动实现。且不需要写负载均衡。    
+
+2. **改写连接池**    
+
+因为RestTemplate默认情况下并不会使用连接池，所以一些别的方法进行优化，例如Apache HttpClient和OKHttp,整合OKHttp步骤如下：
+1. 引入依赖  
+```java
+<dependency>
+    <groupId>io.github.openfeign</groupId>
+    <artifactId>feign-okhttp</artifactId>
+</dependency>
+```
+2. 配置文件  
+```java
+feign.okhttp.enabled=true
+```
+
