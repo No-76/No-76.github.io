@@ -24,7 +24,57 @@ Spring特点有：
   1.连接点：Joinpoint，可以被AOP控制的方法  
   2.通知：Advice，重复的逻辑，也就是公用的控制方法  
   3.切入点：Pointcut，匹配连接点的条件，通知仅在切入点方法执行时应用。 
+## SpringMvc  
+Spring MVC框架的核心组件主要包括以下几个部分：
 
+- DispatcherServlet：
+
+作为前端控制器（Front Controller），它是所有HTTP请求的入口点。
+负责将请求路由到相应的处理器（Controller）。
+- Controller：
+
+处理用户请求的组件，通常由一个或多个方法组成，这些方法通过注解（如@RequestMapping）与特定的URL模式关联。
+处理完毕后，返回一个ModelAndView对象，包含视图信息和模型数据。
+- HandlerMapping：
+
+负责将请求映射到对应的Controller处理器。
+根据请求的URL和其他参数（如HTTP方法）来决定使用哪个Controller。
+- HandlerAdapter：  
+
+负责调用Controller中的方法。
+它使得Spring MVC可以调用任何类型的Controller，无论其返回类型如何。
+- ViewResolver：
+
+负责将ModelAndView中的视图名称解析为具体的视图实现。
+常见的实现包括JSP、Thymeleaf等。
+- ModelAndView：
+
+包含模型数据（Map类型）和视图名称。
+作为Controller的返回值，用于向视图传递数据。
+- HttpServletRequest 和 HttpServletResponse：
+
+这两个对象封装了HTTP请求和响应的细节。
+Controller方法通常接收HttpServletRequest作为参数，以便访问请求数据，并将HttpServletResponse作为参数，以便操作响应。
+- LocaleResolver：
+
+用于解析客户端的本地化信息（如语言和地区）。
+它允许应用根据用户的偏好提供本地化的视图和消息。
+- ThemeResolver：
+
+用于主题解析，允许应用根据用户的偏好提供不同的样式和主题。
+- Interceptor：
+
+拦截器可以在请求处理的不同阶段执行自定义逻辑。
+通过实现HandlerInterceptor接口，可以在请求进入Controller前后或视图渲染前后执行代码。
+- Converter 和 Formatter：
+
+Converter用于转换对象和字符串之间的数据。
+Formatter用于格式化和解析特定类型的数据（如日期、数字）。
+- Validation：
+
+用于验证用户输入数据的合法性。
+通常与@Valid注解和Validator接口一起使用。
+这些组件共同构成了Spring MVC的请求处理流程，使得开发者可以以一种灵活、模块化的方式构建Web应用。通过这些组件，Spring MVC能够处理各种复杂的Web请求，并提供强大的数据绑定、验证和本地化支持。
 ## 会话技术
 ![](image.png)  
 登陆过程需要建立一次会话，因为HTTP协议是无状态的，在一次会话中可以包含多次请求和响应。
@@ -69,7 +119,11 @@ HandlerInterceptor 这个接口定义了三个方法：preHandle、postHandle �
 - 调用时间：在整个请求处理完成后，也就是在视图渲染后被调用。
 - 返回值影响：没有返回值。
 - 常见用途：用于执行清理工作，如释放资源、记录日志等。
-
+#### 微服务中如何定义总体拦截器
+以下均基于common模块中。
+1. 创建一个实现HandlerInterceptor接口的类，并实现其方法preHandle、postHandle 和 afterCompletion方法。
+2. 创建一个实现MvcConfigurer接口的类，并实现addInterceptors方法。
+3. 在META-INF/spring.factories文件中注册该拦截器的bean。
 ### 消息转换器
 Spring 的消息转换器（HttpMessageConverter）主要负责将请求报文绑定为方法中的形参对象，以及将方法的返回值转换为 HTTP 响应的内容。当 Controller 方法返回一个对象时，Spring MVC 使用消息转换器将该对象转换为 HTTP 响应体的内容
 。消息转换器负责将 Java 对象转换为特定的媒体类型，例如 JSON、XML、HTML 等。  
@@ -155,7 +209,7 @@ cron表达式其实是一个字符串，通过cron表达式可以**定义任务�
 ## 微服务
 ### 网关  
 ![alt text](image-7.png)  
-通过Spring Cloud Gateway，可以轻松实现网关，网关也是一个服务。网关配置如下：
+通过Spring Cloud Gateway，可以轻松实现网关，网关也是一个服务。**网关不吃MVC那一套，所以xml里也不需要引入相关依赖**。网关配置如下：
 ```yaml
     gateway:
       routes:
@@ -180,7 +234,19 @@ return instancse.get(RandomUtil.randomInt(instancse.size())));
 ```  
 
 ### Nacos
-解决页面请求访问哪个服务的问题。通过1.引入相关依赖和2.配置文件自动完成服务注册。
+解决页面请求访问哪个服务的问题。通过1.引入相关依赖和2.配置文件自动完成服务注册。  
+nacos主要有两个功能：  
+1. 服务注册 
+2. 配置管理 ： 配置共享，配置热更新，动态路由。    
+
+对于Nacos的热更新，有两种情况：
+
+配置热更新：Nacos 客户端提供了配置监听器的功能，允许应用程序监听配置的变化。当配置发生变化时，Nacos 服务器会推送更新到客户端，客户端的监听器会接收到这些变化并进行处理。这种方式下，应用程序不需要显式地设置监听器，因为Nacos客户端已经内置了这种监听机制 
+。
+
+动态路由热更新：对于动态路由的热更新，通常需要应用程序显式地设置监听器来监听路由配置的变化。这是因为路由配置的更新通常需要立即反映在服务的路由逻辑中，而这种更新可能需要特定的逻辑来处理，比如重新加载路由规则、更新缓存等 
+。在Spring Cloud Gateway中，可以通过实现 DynamicRouteService 接口并注册监听器来实现动态路由的热更新 
+。
 ### openfeign
 1. **使用方法**     
 
@@ -208,8 +274,31 @@ public interface itemClient {
 ```java
 feign.okhttp.enabled=true
 ```
+3. 重要要的几个接口：  
+- RequestInterceptor 接口：用于拦截请求，可以添加header等。  
+使用方法示例：  
+```java
+  // 这个接口中只有这一个方法
+    @Bean
+    public RequestInterceptor userInfoRequestInterceptor(){
+        return new RequestInterceptor() {
+            //允许开发者在 Feign 发起 HTTP 请求之前，对请求进行拦截和修改。这个方法接受一个 RequestTemplate 对象作为参数，通过这个对象，你可以访问和修改即将发送的 HTTP 请求的各个组成部分。
+            @Override
+            public void apply(RequestTemplate template) {
+                Long userId = UserContext.getUser();
+                if (userId != null) {
+                    template.header("user-info", userId.toString());
+                }
+            }
+        };
+    }
+```
+### 服务保护和分布式事务
+#### Sentinel  
+限流，隔离，熔断
+#### 分布式事务  
+
 
 ## Spring常用工具  
 1. AntPathMatcher类  
 用于匹配路径，例如：/items/**，可以匹配/items/1，/items/1/2。
-
