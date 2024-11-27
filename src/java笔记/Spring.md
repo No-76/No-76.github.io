@@ -54,7 +54,22 @@ Spring特点有：
 3./(全部)  
 ### Interceptor拦截器  
 是Spring框架提供的一个概念，可以通过实现org.springframework.web.servlet.HandlerInterceptor接口或使用@Interceptor注解来创建。作用于Spring的DispatcherServlet之后，只对经过DispatcherServlet的请求有效，通常不包括静态资源。         
-![拦截器与过滤器的区别图](image-1.png)  
+![拦截器与过滤器的区别图](image-1.png)   
+HandlerInterceptor 这个接口定义了三个方法：preHandle、postHandle 和 afterCompletion，每个方法都在请求处理的不同阶段被调用 。  
+1. preHandle 方法：
+- 调用时间：在请求进入Controller之前被调用。
+- 返回值影响：如果返回 true，则请求继续传递到下一个拦截器或最终的Controller；如果返回 false，则请求处理流程终止，后续的拦截器和Controller将不会被调用  。
+- 常见用途：用于执行前置处理逻辑，如身份验证、权限检查、日志记录等 。
+2. postHandle 方法：
+- 调用时间：在请求由Controller处理后，但在视图被渲染之前被调用。
+- 返回值影响：没有返回值。
+- 常见用途：用于执行后置处理逻辑，如修改ModelAndView对象，记录请求处理时间等。
+3. afterCompletion 方法：
+
+- 调用时间：在整个请求处理完成后，也就是在视图渲染后被调用。
+- 返回值影响：没有返回值。
+- 常见用途：用于执行清理工作，如释放资源、记录日志等。
+
 ### 消息转换器
 Spring 的消息转换器（HttpMessageConverter）主要负责将请求报文绑定为方法中的形参对象，以及将方法的返回值转换为 HTTP 响应的内容。当 Controller 方法返回一个对象时，Spring MVC 使用消息转换器将该对象转换为 HTTP 响应体的内容
 。消息转换器负责将 Java 对象转换为特定的媒体类型，例如 JSON、XML、HTML 等。  
@@ -140,7 +155,20 @@ cron表达式其实是一个字符串，通过cron表达式可以**定义任务�
 ## 微服务
 ### 网关  
 ![alt text](image-7.png)  
-通过Spring Cloud Gateway，可以轻松实现网关，网关也是一个服务。
+通过Spring Cloud Gateway，可以轻松实现网关，网关也是一个服务。网关配置如下：
+```yaml
+    gateway:
+      routes:
+        - id: item # 路由规则id，自定义，唯一
+          uri: lb://item-service # 路由的目标服务，lb代表负载均衡，会从注册中心拉取服务列表
+          predicates: # 路由断言，判断当前请求是否符合当前规则，符合则路由到目标服务
+            - Path=/items/**,/search/**  # 这里是以请求路径作为判断规则  
+          filters:  # 路由过滤器，对请求进行过滤，例如添加header，修改请求参数等
+          - StripPrefix=1 # 移除前缀，例如/items/1/2，移除后为/1/2
+```  
+路由断言的作用是判断当前请求是否满足当前路由规则，可以有多个规则，例如Path,After,Before等。
+- GatewayFilter：路由过滤器，需要指定并配置。
+- GlobalFilter：全局过滤器，不需要配置，在GatewayFilterFactory中实现。自定义方法参考NettyRoutingFilter，过滤器最底层。
 ### 手写负载均衡  
 ```java
 //1.通过SoringCloud接口DiscoverClient创建对象
@@ -149,7 +177,8 @@ private final DiscoverClient discoverClient;
 List<ServiceInstance instancse = discoverClient.getInstances("service-name");
 //3. 通过负载均衡获取示例调用
 return instancse.get(RandomUtil.randomInt(instancse.size())));
-```
+```  
+
 ### Nacos
 解决页面请求访问哪个服务的问题。通过1.引入相关依赖和2.配置文件自动完成服务注册。
 ### openfeign
@@ -169,7 +198,7 @@ public interface itemClient {
 
 因为RestTemplate默认情况下并不会使用连接池，所以一些别的方法进行优化，例如Apache HttpClient和OKHttp,整合OKHttp步骤如下：
 1. 引入依赖  
-```java
+```XML
 <dependency>
     <groupId>io.github.openfeign</groupId>
     <artifactId>feign-okhttp</artifactId>
@@ -179,4 +208,8 @@ public interface itemClient {
 ```java
 feign.okhttp.enabled=true
 ```
+
+## Spring常用工具  
+1. AntPathMatcher类  
+用于匹配路径，例如：/items/**，可以匹配/items/1，/items/1/2。
 
