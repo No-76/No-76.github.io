@@ -78,6 +78,13 @@ export default navbar([
     children: ["java","JVM","Redis","Spring","工具相关","注解"],
   
   },  
+  {
+    text: "项目笔记",
+    icon: "pen-to-square",
+    prefix: "/项目笔记/",
+    children: ["黑马点评"],
+  
+  },  
 
 
 ]);

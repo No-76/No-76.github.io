@@ -49,6 +49,14 @@ export default sidebar({
       children: "structure",
       
     },
+    {
+      text: "项目笔记",
+      icon: "book",
+      prefix: "项目笔记/",
+      link: "项目笔记/",
+      children: "structure",
+      
+    },
 
   ],
 });
