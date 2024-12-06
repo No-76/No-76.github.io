@@ -228,7 +228,7 @@ cron表达式其实是一个字符串，通过cron表达式可以**定义任务�
 //1.通过SoringCloud接口DiscoverClient创建对象
 private final DiscoverClient discoverClient;
 //2. 获取服务列表
-List<ServiceInstance instancse = discoverClient.getInstances("service-name");
+List<ServiceInstance> instancse = discoverClient.getInstances("service-name");
 //3. 通过负载均衡获取示例调用
 return instancse.get(RandomUtil.randomInt(instancse.size())));
 ```  

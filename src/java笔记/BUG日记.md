@@ -23,3 +23,6 @@ tag:
 git config --global http.postBuffer 524288000
 ``` 
 
+3. docker前端配了半天，nginx端口没映射完。  
+
+4. 接口测试返回406，发现是DTO中没写@DATA注解。

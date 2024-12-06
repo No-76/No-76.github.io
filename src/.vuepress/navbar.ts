@@ -82,7 +82,7 @@ export default navbar([
     text: "项目笔记",
     icon: "pen-to-square",
     prefix: "/项目笔记/",
-    children: ["黑马点评"],
+    children: ["黑马点评","代码库"],
   
   },  
 
