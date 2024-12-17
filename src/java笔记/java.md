@@ -24,6 +24,10 @@ tag:
 访问权限修饰符有四种：private< default < protected < public。
 
 ## java数据结构
+## 数组  
+**Arrays中的方法**  
+1. sort：对数组进行排序，其中comperato的构造中对于基本元素是无法使用的，例如int[],故排序需要构造比较的话一般使用Integer[].
+2. parallelSort:并行排序，多线程，函数内部规定当数组长度小于8192时默认使用sort方法。
 ### 字符串
 1. **String**：字符串，不可变对象。   
 2. **StringBuilder**：常用于单线程中，多线程使用不安全。
@@ -86,6 +90,11 @@ HashSet的实现结构为数组加链表加红黑树，底层原理如下：
 LinkedHashSet跟HashSet一样，区别在于会用一个双向链表保存插入的顺序，因此可以保持插入的顺序。    
 ##### TreeSet
 TreeSet的实现机制为红黑树，不需要重写equals和hashCode方法，底层原理：当插入元素时，通过比较(默认使用comparabel接口，无法比较则需要构造比较器)构建红黑树。比较差值为0，则舍弃。
+因为是基于红黑树的，所以有几个比较特殊的函数：  
+1. higher和lower方法，返回比给定元素大的最小元素，比给定元素小的最大元素。严格  
+2. ceiling和floor方法，返回大于等于给定元素最小元素，小于等于给定元素最大的元素。不严格  
+3. headset和tailset方法，返回小于或大于给定元素最大的元素treeset集合。是否严格根据所给bool值
+4. subset，返回之间的数。是否严格根据所给bool值
 
 ## 函数编程
 ### Stream
