@@ -75,8 +75,24 @@ export default navbar([
     text: "java笔记",
     icon: "pen-to-square",
     prefix: "/java笔记/",
-    children: ["java","JVM","Redis","Spring","工具相关","注解"],
-  
+    children:
+    [
+      {
+        text: "java基础",
+        icon: "pen-to-square",
+        children: ["java","工具相关"],
+      },   
+      {
+        text: "java高级",
+        icon: "pen-to-square",
+        children: ["Redis","JVM","设计模式"],
+        },  
+        {
+          text: "框架相关",
+          icon: "pen-to-square",
+          children: ["Spring","注解"],
+          }, 
+    ],
   },  
   {
     text: "项目笔记",
