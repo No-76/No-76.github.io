@@ -14,17 +14,41 @@ tag:
 <!-- more -->
 
 ## 基础
-### 封装
-### 继承
-### 多态  
+### OOP
+3. 多态                           
 调用成员变量：编译看左边，运行看左边。  
 调用成员方法：编译看左边，运行看右边。  
 若父类中没有成员变量或方法，怎么都编译不通过。
 ### 权限修饰符  
 访问权限修饰符有四种：private< default < protected < public。
+### Java 反射 
+反射就是加载类，加载到内存中并解刨出各个成分。反射是用来做框架的，破坏对象的封装性，idea之所以能提示生成哪些方法，就是基于反射的。反射的步骤如下：  
+1. 获取类：获取对象的Class对象。
+2. 获取构造方法：通过一系列函数getDeclaredConstructor() 可以获取类的构造方法对象，然后调用.newInstance()创建对象。注意针对私有化构造方法可以通过setAccessible(true)来修改权限。实现暴力反射。  
+3. 获取类的成员变量：通过getDeclaredFields()可以获取类的成员变量对象，然后调用.get()获取成员变量的值。
+4. 获取类的方法：通过getDeclaredMethods()可以获取类的方法对象，然后通过方法对象调用.invoke()触发某个方法的执行。
+### 注解  
+1. 自定义注解  
+```java
+public @interface 注解名称 {
+   public 属性类型 属性名() default 默认值;
+}
+```
+注解本质是一个接口，如果看.class文件就会发现，而且是继承自Annotation。而@注解 实际上是一个实现类对象，实现了该注解一级Annotatio接口。    
+
+2. 元注解     
+
+修饰注解的注解。
+- @target：用来约束注解的范围，应该加载什么之上(类、方法、参数等)。
+- @Retention: 声明注解的保留周期，分为SOURCE，CLASS，RUNTIME。分别是源代码、编译后、运行时存在。   
+
+
+3. 注解解析  
+    
+就是判断注解是否存在，class、Method、Field、Constructor都实现了AnnotatedElement接口，它们都拥有解析拆解的能力。
 
 ## java数据结构
-## 数组  
+### 数组  
 **Arrays中的方法**  
 1. sort：对数组进行排序，其中comperato的构造中对于基本元素是无法使用的，例如int[],故排序需要构造比较的话一般使用Integer[].
 2. parallelSort:并行排序，多线程，函数内部规定当数组长度小于8192时默认使用sort方法。
@@ -35,15 +59,13 @@ tag:
 4. **StringJoiner**：可以指定分隔符和开头结尾，用于构建字符串。  
 
 其中java底层对StringBuilder进行过处理，如果打印他的对象不会返回对象的地址值，而是属性值。
+  
+**String比较大小的问题？**  
+1. 字典顺序，使用String类中的compareTo方法，字典序按照编码顺序比较。
+2. 自然顺序，使用Comparable方法，字典顺序是不关心大小写，只关心当前字母排序。
 
-
-### 队列和栈
-
-如果想要一个int类型数组，可以使用如下代码：
-```java
-var array = nums.stream().mapToInt(i -> i).toArray();
-```
 ### 集合
+Collection单列集合
 ![alt text](image-8.png)
 #### List列表 
 1. **ArrayList**：动态数组，支持随机访问。
@@ -95,7 +117,10 @@ TreeSet的实现机制为红黑树，不需要重写equals和hashCode方法，�
 2. ceiling和floor方法，返回大于等于给定元素最小元素，小于等于给定元素最大的元素。不严格  
 3. headset和tailset方法，返回小于或大于给定元素最大的元素treeset集合。是否严格根据所给bool值
 4. subset，返回之间的数。是否严格根据所给bool值
-
+### Map集合
+Map集合和Clollection是并列关系，不过他是双列集合，键值对集合。  
+![..](image-19.png)
+类似集合中Set，不再介绍。
 ## 函数编程
 ### Stream
 Stream流主要用在集合（Collection）类型数据的处理上，例如：过滤、映射、排序、查找等。  
@@ -103,7 +128,7 @@ Stream流主要用在集合（Collection）类型数据的处理上，例如：�
 2. **映射**：使用 `map()` 方法，将集合中的每个元素应用一个函数，得到一个新集合。
 3. **排序**：使用 `sorted()` 方法，对集合进行排序。
 4. **查找**：使用 `findAny()` 或 `findFirst()` 方法，返回流中的任意一个元素或第一个元素。
-5. **收集**：使用 `collect()` 方法，将流中的元素收集到一个集合中。collect 方法是 Terminal Operation，这意味着一旦执行了 collect 操作，流就会被消费，不能再被使用。
+5. **收集**：使用 `collect()` 方法，将流中的元素收集到一个集合中。collect 方法是 Terminal   collect 操作，流就会被消费，不能再被使用。
 ```java
 List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
 List<Integer> result = list.stream()
@@ -120,9 +145,18 @@ return map.entrySet().stream().mapToInt(Entry::getValue).max().orelse(0);
 ```java
   return Arrays.stream(arr)
                 .boxed()
-                .sorted(Comparator.comparingInt(Integer::bitCount).thenComparingInt(Integer::intValue))
+                .sorted(Comparator.comparingInt(Integer::bitCount)
+                .thenComparingInt(Integer::intValue))
                 .mapToInt(Integer::intValue)
                 .toArray();
+```  
+以下是String中使用Stream的方法,字母排序后转换为新的字符串。
+```java
+return "hello".chars() //将字符串转换为int流，不同于之前使用stream方法。
+            .mapToObj(c -> (char) c) //将int流转换为字符Stream<Character>
+            .sorted() //对字符进行排序
+            .map(String::valueOf) //转化为字符串Stream<String>
+            .collect(Collectors.joining());
 ```
 
 ### Collections
