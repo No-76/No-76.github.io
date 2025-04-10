@@ -193,7 +193,7 @@ jdk7之前静态变量放在方法区中，jdk8之后放在堆中Class对象中�
 
 3. ThreadLocal的错误使用。
   
-如果仅仅使用手动创建的线程，就算没有调用TreadLocal的remove方法，也不会导致内存泄漏，因为线程被回收时，ThreadLocal同时也被回收，但是如果使用线程池就不行了。解决方案是调用remove方法及时清理对象。  
+ThreadLocal使用内部类ThreadLocalMap来存储每个线程的变量副本。ThreadLocalMap是一个定制化的哈希表，其中的键（key）是ThreadLocal实例的弱引用，值（value）是实际存储的对象。弱引用在gc时无论是否充足都会回收。
 
 
 4. String的intern方法导致(内存溢出)。

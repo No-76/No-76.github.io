@@ -26,3 +26,5 @@ git config --global http.postBuffer 524288000
 3. docker前端配了半天，nginx端口没映射完。  
 
 4. 接口测试返回406，发现是DTO中没写@DATA注解。
+
+5. 空指针错误，永久有效期的短链接与过期跳转404代码出现冲突。

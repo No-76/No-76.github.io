@@ -85,7 +85,7 @@ export default navbar([
       {
         text: "java高级",
         icon: "pen-to-square",
-        children: ["Redis","JVM","设计模式"],
+        children: ["Redis","JVM","设计模式","并发编程"],
         },  
         {
           text: "框架相关",
